@@ -37,6 +37,7 @@ extendible plug-in based API.
 %package devel
 Summary:        Header files for MLT
 Summary(pl):    Pliki nag³ówkowe dla MLT
+Requires:	mlt
 Group:          Development/Libraries
 
 %description devel

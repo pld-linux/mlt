@@ -17,10 +17,10 @@ BuildRequires:	SDL-devel
 BuildRequires:	bluefish
 #BuildRequires:	ffmpeg-devel
 BuildRequires:	libdv-devel >= 0.102
+BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libvorbis-devel >= 1.0.1
 BuildRequires:	libxml2-devel >= 2.5
-BuildRequires:	quicktime4linux-devel
 BuildRequires:	sox-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

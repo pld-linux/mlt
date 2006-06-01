@@ -29,21 +29,22 @@ MLT is an open source multimedia framework, designed and developed for
 television broadcasting. It provides a toolkit for broadcasters, video
 editors, media players, transcoders, web streamers and many more types
 of applications. The functionality of the system is provided via an
-assortment of ready to use tools, xml authoring components, and an
+assortment of ready to use tools, XML authoring components, and an
 extendible plug-in based API.
 
 #%description -l pl
 
 %package devel
-Summary:        Header files for MLT
-Summary(pl):    Pliki nag³ówkowe dla MLT
+Summary:	Header files for MLT
+Summary(pl):	Pliki nag³ówkowe dla MLT
 Requires:	mlt
-Group:          Development/Libraries
+Group:		Development/Libraries
 
 %description devel
-Header files for MLT
+This package contains header files for MLT.
 
-#%description devel -l pl
+%description devel -l pl
+Ten pakiet zawiera pliki nag³ówkowe dla MLT.
 
 %prep
 %setup -q

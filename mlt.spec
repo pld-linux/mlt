@@ -37,8 +37,8 @@ extendible plug-in based API.
 %package devel
 Summary:	Header files for MLT
 Summary(pl):	Pliki nag³ówkowe dla MLT
-Requires:	mlt
 Group:		Development/Libraries
+Requires:	mlt
 
 %description devel
 This package contains header files for MLT.
@@ -76,5 +76,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mlt*
 
 %files devel
-%{_libdir}/pkgconfig/*.pc
+%defattr(644,root,root,755)
+%{_pkgconfigdir}/*.pc
 %{_includedir}/mlt*

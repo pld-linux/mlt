@@ -16,12 +16,18 @@ URL:		http://www.dennedy.org/mlt/twiki/bin/view/MLT/WebHome
 BuildRequires:	SDL-devel
 BuildRequires:	bluefish
 #BuildRequires:	ffmpeg-devel
+BuildRequires:	gtk+2-devel
+BuildRequires:	lame-libs-devel
 BuildRequires:	libdv-devel >= 0.102
+BuildRequires:	libmad-devel
 BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libvorbis-devel >= 1.0.1
 BuildRequires:	libxml2-devel >= 2.5
+BuildRequires:	pkgconfig
+BuildRequires:	qt-devel
 BuildRequires:	sox-devel
+BuildRequires:	which
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -51,10 +57,19 @@ Ten pakiet zawiera pliki nag³ówkowe dla MLT.
 
 %build
 %configure \
-	--disable-avformat
-%{__make}
-	CFLAGS="%{rpmcflags}" \
-	LDFLAGS="%{rpmldflags}"
+	--disable-avformat \
+	--enable-gpl \
+	--disable-debug \
+%ifarch i586 i686 %{x8664}
+	--disable-mmx \
+%else
+	--enable-mmx \
+%endif
+	--qimage-includedir=%{_includedir}/qt \
+	--qimage-libdir=%{_libdir}
+	
+%{__make} \
+	CC="%{__cc}"
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -3,8 +3,8 @@
 # - bconds
 # - currently avformat support is broken, the hell knows why
 #
-Summary:	MLT
-Summary(pl):	MLT
+Summary:	MLT - open source multimedia framework
+Summary(pl):	MLT - szkielet multimedialny o otwartych ¼ród³ach
 Name:		mlt
 Version:	0.2.2
 Release:	0.1
@@ -22,7 +22,7 @@ BuildRequires:	libdv-devel >= 0.102
 BuildRequires:	libmad-devel
 BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
-BuildRequires:	libvorbis-devel >= 1.0.1
+BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 2.5
 BuildRequires:	pkgconfig
 BuildRequires:	qt-devel
@@ -38,7 +38,14 @@ of applications. The functionality of the system is provided via an
 assortment of ready to use tools, XML authoring components, and an
 extendible plug-in based API.
 
-#%description -l pl
+%description -l pl
+MLT to szkielet multimedialny o otwartych ¼ród³ach zaprojektowany i
+rozwijany do nadawania telewizji. Udostêpnia zestaw narzêdzi dla
+nadawców, edytory obrazu, odtwarzacze mediów, transkodery, narzêdzia
+do udostêpniania strumieni przez WWW i wiele innych rodzajów
+aplikacji. Funkcjonalno¶æ systemu jest zapewniona poprzez asortyment
+gotowych do u¿ycia narzêdzi, komponentów do tworzenia XML-a i
+rozszerzalne API oparte na wtyczkach.
 
 %package devel
 Summary:	Header files for MLT

@@ -17,6 +17,7 @@ BuildRequires:	SDL-devel
 BuildRequires:	bluefish
 #BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk+2-devel
+BuildRequires:	ladspa-devel
 BuildRequires:	lame-libs-devel
 BuildRequires:	libdv-devel >= 0.102
 BuildRequires:	libmad-devel

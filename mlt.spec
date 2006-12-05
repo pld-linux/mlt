@@ -14,7 +14,6 @@ Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 # Source0-md5:	9d4a3d308b1314a117f692766fb15e90
 URL:		http://www.dennedy.org/mlt/twiki/bin/view/MLT/WebHome
 BuildRequires:	SDL-devel
-BuildRequires:	bluefish
 #BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	ladspa-devel
@@ -65,8 +64,8 @@ Ten pakiet zawiera pliki nag³ówkowe dla MLT.
 
 %build
 %configure \
-	--disable-avformat \
 	--enable-gpl \
+	--enable-motion-est \
 	--disable-debug \
 %ifarch i586 i686 %{x8664}
 	--disable-mmx \

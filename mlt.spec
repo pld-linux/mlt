@@ -7,7 +7,7 @@ Summary:	MLT - open source multimedia framework
 Summary(pl):	MLT - szkielet multimedialny o otwartych ¼ród³ach
 Name:		mlt
 Version:	0.2.2
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
@@ -65,7 +65,11 @@ Ten pakiet zawiera pliki nag³ówkowe dla MLT.
 %build
 %configure \
 	--enable-gpl \
+%ifarch %{x8664}
+	--disable-motion-est \
+%else
 	--enable-motion-est \
+%endif
 	--disable-debug \
 %ifarch i586 i686 %{x8664}
 	--disable-mmx \

@@ -4,7 +4,7 @@
 # - currently avformat support is broken, the hell knows why
 #
 Summary:	MLT - open source multimedia framework
-Summary(pl):	MLT - szkielet multimedialny o otwartych 紃骴砤ch
+Summary(pl.UTF-8):   MLT - szkielet multimedialny o otwartych 藕r贸d艂ach
 Name:		mlt
 Version:	0.2.2
 Release:	0.2
@@ -38,26 +38,26 @@ of applications. The functionality of the system is provided via an
 assortment of ready to use tools, XML authoring components, and an
 extendible plug-in based API.
 
-%description -l pl
-MLT to szkielet multimedialny o otwartych 紃骴砤ch zaprojektowany i
-rozwijany do nadawania telewizji. Udost阷nia zestaw narz阣zi dla
-nadawc體, edytory obrazu, odtwarzacze medi體, transkodery, narz阣zia
-do udost阷niania strumieni przez WWW i wiele innych rodzaj體
-aplikacji. Funkcjonalno舵 systemu jest zapewniona poprzez asortyment
-gotowych do u縴cia narz阣zi, komponent體 do tworzenia XML-a i
+%description -l pl.UTF-8
+MLT to szkielet multimedialny o otwartych 藕r贸d艂ach zaprojektowany i
+rozwijany do nadawania telewizji. Udost臋pnia zestaw narz臋dzi dla
+nadawc贸w, edytory obrazu, odtwarzacze medi贸w, transkodery, narz臋dzia
+do udost臋pniania strumieni przez WWW i wiele innych rodzaj贸w
+aplikacji. Funkcjonalno艣膰 systemu jest zapewniona poprzez asortyment
+gotowych do u偶ycia narz臋dzi, komponent贸w do tworzenia XML-a i
 rozszerzalne API oparte na wtyczkach.
 
 %package devel
 Summary:	Header files for MLT
-Summary(pl):	Pliki nag丑wkowe dla MLT
+Summary(pl.UTF-8):   Pliki nag艂贸wkowe dla MLT
 Group:		Development/Libraries
 Requires:	mlt
 
 %description devel
 This package contains header files for MLT.
 
-%description devel -l pl
-Ten pakiet zawiera pliki nag丑wkowe dla MLT.
+%description devel -l pl.UTF-8
+Ten pakiet zawiera pliki nag艂贸wkowe dla MLT.
 
 %prep
 %setup -q

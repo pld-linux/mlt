@@ -4,7 +4,7 @@
 # - currently avformat support is broken, the hell knows why
 #
 Summary:	MLT - open source multimedia framework
-Summary(pl.UTF-8):   MLT - szkielet multimedialny o otwartych źródłach
+Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
 Version:	0.2.2
 Release:	0.2
@@ -49,7 +49,7 @@ rozszerzalne API oparte na wtyczkach.
 
 %package devel
 Summary:	Header files for MLT
-Summary(pl.UTF-8):   Pliki nagłówkowe dla MLT
+Summary(pl.UTF-8):	Pliki nagłówkowe dla MLT
 Group:		Development/Libraries
 Requires:	mlt
 

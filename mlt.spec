@@ -13,6 +13,7 @@ Group:		X11/Applications/Multimedia
 Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 # Source0-md5:	9d4a3d308b1314a117f692766fb15e90
 URL:		http://www.dennedy.org/mlt/twiki/bin/view/MLT/WebHome
+Patch0:		mlt-sox.patch
 BuildRequires:	SDL-devel
 #BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk+2-devel
@@ -61,6 +62,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 %configure \

@@ -1,0 +1,68 @@
+--- mlt-0.2.2/src/modules/avformat/consumer_avformat.c.bak	2005-11-10 13:26:32.000000000 +0100
++++ mlt-0.2.2/src/modules/avformat/consumer_avformat.c	2006-12-17 17:20:28.252460177 +0100
+@@ -926,7 +926,7 @@
+ 								n = ( width + 7 ) / 8;
+ 								p = output->data[ 0 ] + i * output->linesize[ 0 ];
+ 
+-								#ifndef __DARWIN__
++								#ifndef __powerpc__
+ 								p += 3;
+ 								#endif
+ 
+--- mlt-0.2.2/src/modules/motion_est/filter_motion_est.c.bak	2005-10-28 08:59:28.000000000 +0200
++++ mlt-0.2.2/src/modules/motion_est/filter_motion_est.c	2006-12-17 17:21:35.389036545 +0100
+@@ -34,7 +34,7 @@
+ #include <sys/time.h>
+ #include <unistd.h>
+ 
+-#ifndef __DARWIN__
++#ifdef HAVE_SSE
+ #include "sad_sse.h"
+ #endif
+ 
+@@ -612,7 +612,7 @@
+ 	 } /* End column loop */
+ 	} /* End row loop */
+ 
+-#ifndef __DARWIN__
++#ifdef HAVE_SSE
+ 	asm volatile ( "emms" );
+ #endif
+ 
+@@ -656,7 +656,7 @@
+ static void init_optimizations( struct motion_est_context_s *c )
+ {
+ 	switch(c->mb_w){
+-#ifndef __DARWIN__
++#ifdef HAVE_SSE
+ 		case 4:  if(c->mb_h == 4)	c->compare_optimized = sad_sse_422_luma_4x4;
+ 			 else				c->compare_optimized = sad_sse_422_luma_4w;
+ 			 break;
+--- mlt-0.2.2/configure.bak	2006-12-06 17:59:19.115902271 +0100
++++ mlt-0.2.2/configure	2006-12-17 17:24:50.666713281 +0100
+@@ -74,6 +74,13 @@
+ 		*)
+ 		;;
+ 		esac
++		case $targetarch in
++		i386|x86_64)
++		echo "CFLAGS+=-DHAVE_SSE"
++		;;
++		*)
++		;;
++		esac
+ 		echo "LIBSUF=$LIBSUF"
+ 	) > config.mak
+ 
+@@ -135,6 +142,11 @@
+ 	LIBSUF=".so"
+ 	;;
+ esac
++# Determine ARCH
++targetarch=$(uname -m)
++if expr $targetarch : 'i[3-9]86' >/dev/null; then
++  targetarch=i386
++fi
+ export LIBSUF
+ 
+ # Iterate through arguments

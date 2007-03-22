@@ -65,7 +65,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %setup -q
 %patch0 -p0
 %ifarch ppc ppc64
-    %patch1 -p1
+	%patch1 -p1
 %endif
 
 %build

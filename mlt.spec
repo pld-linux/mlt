@@ -2,12 +2,14 @@
 # TODO:
 # - bconds
 # - currently avformat support is broken, the hell knows why
-#
+# - seems to link/auto-require installed older version of lib instead of own new
+# - still fails to work with kdenlive:
+#     Failed to load plugin: /usr/share/mlt/modules/libmltavformat.so: undefined symbol: img_convert
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
 Version:	0.2.4
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
@@ -52,7 +54,7 @@ rozszerzalne API oparte na wtyczkach.
 Summary:	Header files for MLT
 Summary(pl.UTF-8):	Pliki nagłówkowe dla MLT
 Group:		Development/Libraries
-Requires:	mlt
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains header files for MLT.

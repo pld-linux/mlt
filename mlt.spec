@@ -70,6 +70,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %endif
 
 %build
+export LDFLAGS="%{rpmldflags} -L%{_x_libraries}"
 %configure \
 	--enable-gpl \
 %ifarch %{x8664}

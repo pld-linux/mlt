@@ -1,23 +1,21 @@
 #
 # TODO:
-# - bconds
-# - currently avformat support is broken, the hell knows why
-# - seems to link/auto-require installed older version of lib instead of own new
-# - still fails to work with kdenlive:
-#     Failed to load plugin: /usr/share/mlt/modules/libmltavformat.so: undefined symbol: img_convert
+#	- bconds
+#	- more bindings
+#
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	0.2.4
-Release:	2
+Version:	0.5.2
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	6606d8be848a10efef929e2b6de3cf61
-URL:		http://www.dennedy.org/mlt/twiki/bin/view/MLT/WebHome
+# Source0-md5:	8d556b11710fc24801e06b893ac5d61b
+URL:		http://www.mltframework.org/
 Patch1:		mlt-linuxppc.patch
 BuildRequires:	SDL-devel
-#BuildRequires:	ffmpeg-devel
+BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	ladspa-devel
 BuildRequires:	lame-libs-devel
@@ -28,9 +26,12 @@ BuildRequires:	libsamplerate-devel
 BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 2.5
 BuildRequires:	pkgconfig
+BuildRequires:	rpm-pythonprov
 BuildRequires:	qt-devel
 BuildRequires:	sox-devel
 BuildRequires:	which
+BuildRequires:	swig-python
+Obsoletes:	mlt++ < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,11 +51,21 @@ aplikacji. Funkcjonalność systemu jest zapewniona poprzez asortyment
 gotowych do użycia narzędzi, komponentów do tworzenia XML-a i
 rozszerzalne API oparte na wtyczkach.
 
+%package -n python-mlt
+Summary:	MLT Python bindings
+Summary(pl.UTF-8):	Wiązania MLT dla Pythona
+Group:		Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python-mlt
+Python bindings for MLT - open source multimedia framework.
+
 %package devel
 Summary:	Header files for MLT
 Summary(pl.UTF-8):	Pliki nagłówkowe dla MLT
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	mlt++-devel < %{version}
 
 %description devel
 This package contains header files for MLT.
@@ -83,17 +94,27 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %else
 	--enable-mmx \
 %endif
+	--disable-sse2 \
+	--avformat-swscale \
 	--qimage-includedir=%{_includedir}/qt \
-	--qimage-libdir=%{_libdir}
+	--qimage-libdir=%{_libdir} \
+	--swig-languages=python
 	
 %{__make} \
 	CC="%{__cc}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{py_sitedir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+install src/swig/python/{*.py,*.so} $RPM_BUILD_ROOT%{py_sitedir}
+
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -105,10 +126,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog README
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/*.so*
+%ghost %attr(755,root,root) %{_libdir}/*.so.?
+%attr(755,root,root) %{_libdir}/*.so.*.*
+%dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/*
 %{_datadir}/mlt*
+
+%files -n python-%{name}
+%{py_sitedir}/*.py[co]
+%attr(755,root,root) %{py_sitedir}/*.so
 
 %files devel
 %defattr(644,root,root,755)
 %{_pkgconfigdir}/*.pc
 %{_includedir}/mlt*
+%{_libdir}/*.so

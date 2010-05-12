@@ -13,24 +13,27 @@ Group:		X11/Applications/Multimedia
 Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 # Source0-md5:	8d556b11710fc24801e06b893ac5d61b
 URL:		http://www.mltframework.org/
-Patch1:		mlt-linuxppc.patch
+Patch1:		%{name}-linuxppc.patch
+BuildRequires:	QtGui-devel
+BuildRequires:	QtSvg-devel
+BuildRequires:	QtXml-devel
 BuildRequires:	SDL-devel
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk+2-devel
-BuildRequires:	ladspa-devel
-BuildRequires:	lame-libs-devel
+#BuildRequires:	ladspa-devel
+#BuildRequires:	lame-libs-devel
 BuildRequires:	libdv-devel >= 0.102
-BuildRequires:	libmad-devel
+#BuildRequires:	libmad-devel
 BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 2.5
 BuildRequires:	pkgconfig
+BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov
-BuildRequires:	qt-devel
 BuildRequires:	sox-devel
-BuildRequires:	which
 BuildRequires:	swig-python
+BuildRequires:	which
 Obsoletes:	mlt++ < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -99,7 +102,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 	--qimage-includedir=%{_includedir}/qt \
 	--qimage-libdir=%{_libdir} \
 	--swig-languages=python
-	
+
 %{__make} \
 	CC="%{__cc}"
 
@@ -126,13 +129,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog README
 %attr(755,root,root) %{_bindir}/*
-%ghost %attr(755,root,root) %{_libdir}/*.so.?
+%attr(755,root,root) %ghost %{_libdir}/*.so.?
 %attr(755,root,root) %{_libdir}/*.so.*.*
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*
 %{_datadir}/mlt*
 
 %files -n python-%{name}
+%defattr(644,root,root,755)
 %{py_sitedir}/*.py[co]
 %attr(755,root,root) %{py_sitedir}/*.so
 

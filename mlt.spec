@@ -135,7 +135,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/*
 %{_datadir}/mlt*
 
-%files -n python-%{name}
+%files -n python-mlt
 %defattr(644,root,root,755)
 %{py_sitedir}/*.py[co]
 %attr(755,root,root) %{py_sitedir}/*.so

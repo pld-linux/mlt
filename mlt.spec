@@ -6,12 +6,12 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	0.7.4
+Version:	0.8.0
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
-Source0:	http://dl.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	d5d1ff686f51131a02b0f6fca0f073da
+Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
+# Source0-md5:	d56e0cdfba9c5b5608bf84493322615f
 URL:		http://www.mltframework.org/
 Patch1:		%{name}-linuxppc.patch
 BuildRequires:	QtGui-devel
@@ -99,7 +99,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %endif
 	--disable-sse2 \
 	--avformat-swscale \
-	--qimage-includedir=%{_includedir}/qt \
+	--qimage-includedir=%{_includedir}/qt4 \
 	--qimage-libdir=%{_libdir} \
 	--swig-languages=python
 

@@ -13,7 +13,8 @@ Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 # Source0-md5:	c7a8c4ca7485bb615cbcf851d8742a1c
 URL:		http://www.mltframework.org/
-Patch1:		%{name}-linuxppc.patch
+Patch0:		%{name}-linuxppc.patch
+Patch1:		ffmpeg10.patch
 BuildRequires:	QtGui-devel
 BuildRequires:	QtSvg-devel
 BuildRequires:	QtXml-devel
@@ -78,10 +79,10 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
-
 %ifarch ppc ppc64
-%patch1 -p1
+%patch0 -p1
 %endif
+%patch1 -p1
 
 %build
 %configure \

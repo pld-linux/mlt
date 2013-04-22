@@ -6,15 +6,13 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	0.8.2
-Release:	2
+Version:	0.8.8
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	c7a8c4ca7485bb615cbcf851d8742a1c
+# Source0-md5:	06de4052cffd6760c468d7da9557edae
 URL:		http://www.mltframework.org/
-Patch0:		%{name}-linuxppc.patch
-Patch1:		ffmpeg10.patch
 BuildRequires:	QtGui-devel
 BuildRequires:	QtSvg-devel
 BuildRequires:	QtXml-devel
@@ -79,10 +77,6 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
-%ifarch ppc ppc64
-%patch0 -p1
-%endif
-%patch1 -p1
 
 %build
 %configure \

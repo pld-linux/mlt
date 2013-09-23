@@ -2,12 +2,13 @@
 # TODO:
 #	- bconds
 #	- more bindings
+#	- movit library - http://libregraphicsworld.org/blog/entry/introducing-movit-free-library-for-gpu-side-video-processing
 #
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
 Version:	0.9.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
@@ -32,6 +33,7 @@ BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sox-devel
 BuildRequires:	swig-python
+BuildRequires:	swfdec-devel
 BuildRequires:	which
 Obsoletes:	mlt++ < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -81,6 +83,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %build
 %configure \
 	--enable-gpl \
+	--enable-gpl3 \
 %ifarch %{x8664}
 	--disable-motion-est \
 %else
@@ -88,12 +91,19 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %endif
 	--disable-debug \
 %ifarch i586 i686 %{x8664}
-	--disable-mmx \
-%else
 	--enable-mmx \
+%else
+	--disable-mmx \
 %endif
+%ifarch %{x8664}
+	--enable-sse \
+	--enable-sse2 \
+%else
+	--disable-sse \
 	--disable-sse2 \
+%endif
 	--avformat-swscale \
+	--avformat-vdpau \
 	--qimage-includedir=%{_includedir}/qt4 \
 	--qimage-libdir=%{_libdir} \
 	--swig-languages=python

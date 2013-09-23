@@ -8,7 +8,7 @@ Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
 Version:	0.9.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
@@ -79,6 +79,11 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
+
+# current
+sed -i -e 's#/usr/lib/libvdpau.so#%{_libdir}/libvdpau.so.1#g' ./src/modules/avformat/vdpau.c
+# in case of future changes
+sed -i -e 's#/usr/local/lib/libvdpau.so#%{_libdir}/libvdpau.so.2#g' ./src/modules/avformat/vdpau.c
 
 %build
 %configure \

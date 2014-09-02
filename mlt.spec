@@ -7,19 +7,19 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	0.9.0
-Release:	4
+Version:	0.9.2
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	1cd2d73f3ffe77a43980e99aaa4ea06c
-Patch0:		02-crash-empty-ladspa-path.diff
-Patch1:		03-freetype-ftbfs.diff
+# Source0-md5:	f88ead8fcea628a65ebf329cc4470b6d
 URL:		http://www.mltframework.org/
 BuildRequires:	QtGui-devel
 BuildRequires:	QtSvg-devel
 BuildRequires:	QtXml-devel
 BuildRequires:	SDL-devel
+BuildRequires:	SDL_image-devel
+BuildRequires:	exiv2-devel
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk+2-devel
 #BuildRequires:	ladspa-devel
@@ -34,8 +34,8 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sox-devel
-BuildRequires:	swig-python
 BuildRequires:	swfdec-devel
+BuildRequires:	swig-python
 BuildRequires:	which
 Obsoletes:	mlt++ < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -81,8 +81,6 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 # current
 sed -i -e 's#/usr/lib/libvdpau.so#%{_libdir}/libvdpau.so.1#g' ./src/modules/avformat/vdpau.c
@@ -127,7 +125,7 @@ install -d $RPM_BUILD_ROOT%{py_sitedir}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install src/swig/python/{*.py,*.so} $RPM_BUILD_ROOT%{py_sitedir}
+cp -p src/swig/python/{*.py,*.so} $RPM_BUILD_ROOT%{py_sitedir}
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}

@@ -7,12 +7,13 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	0.9.6
-Release:	3
+Version:	0.9.8
+Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	92bcc95af44ff086df0a0ce17a201d1c
+# Source0-md5:	268e3551958e9fb98927a87315c16889
+Patch0:		ffmpeg3.patch
 URL:		http://www.mltframework.org/
 BuildRequires:	QtGui-devel
 BuildRequires:	QtSvg-devel
@@ -81,11 +82,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
-
-# current
-sed -i -e 's#/usr/lib/libvdpau.so#%{_libdir}/libvdpau.so.1#g' ./src/modules/avformat/vdpau.c
-# in case of future changes
-sed -i -e 's#/usr/local/lib/libvdpau.so#%{_libdir}/libvdpau.so.2#g' ./src/modules/avformat/vdpau.c
+%patch0 -p1
 
 %build
 %configure \
@@ -110,7 +107,6 @@ sed -i -e 's#/usr/local/lib/libvdpau.so#%{_libdir}/libvdpau.so.2#g' ./src/module
 	--disable-sse2 \
 %endif
 	--avformat-swscale \
-	--avformat-vdpau \
 	--qimage-includedir=%{_includedir}/qt4 \
 	--qimage-libdir=%{_libdir} \
 	--swig-languages=python

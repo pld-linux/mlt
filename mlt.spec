@@ -7,13 +7,12 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	0.9.8
+Version:	6.2.0
 Release:	1
 License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	268e3551958e9fb98927a87315c16889
-Patch0:		ffmpeg3.patch
+# Source0-md5:	cdbc5d1d686b75dd2b8fd14059bdd9d4
 URL:		http://www.mltframework.org/
 BuildRequires:	QtGui-devel
 BuildRequires:	QtSvg-devel
@@ -82,17 +81,12 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure \
 	--enable-gpl \
 	--enable-gpl3 \
-%ifarch %{x8664}
-	--disable-motion-est \
-%else
 	--enable-motion-est \
-%endif
 	--disable-debug \
 %ifarch i586 i686 %{x8664}
 	--enable-mmx \
@@ -106,13 +100,15 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 	--disable-sse \
 	--disable-sse2 \
 %endif
-	--avformat-swscale \
 	--qimage-includedir=%{_includedir}/qt4 \
 	--qimage-libdir=%{_libdir} \
 	--swig-languages=python
 
+sed -i -e 's#OPTIMISATIONS=#OPTIMISATIONS=%{rpmcflags} %{rpmcppflags}#g' config.mak
+
 %{__make} \
-	CC="%{__cc}"
+	CC="%{__cc}" \
+	CXX="%{__cxx}"
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -13,10 +13,11 @@ License:	GPL
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 # Source0-md5:	cdbc5d1d686b75dd2b8fd14059bdd9d4
+Patch0:		%{name}-qt5.patch
 URL:		http://www.mltframework.org/
-BuildRequires:	QtGui-devel
-BuildRequires:	QtSvg-devel
-BuildRequires:	QtXml-devel
+BuildRequires:	Qt5Gui-devel
+BuildRequires:	Qt5Svg-devel
+BuildRequires:	Qt5Xml-devel
 BuildRequires:	SDL-devel
 BuildRequires:	SDL_image-devel
 BuildRequires:	exiv2-devel
@@ -81,6 +82,7 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 
 %prep
 %setup -q
+%patch0 -p1
 
 # Don't overoptimize (breaks debugging)
 sed -i -e '/fomit-frame-pointer/d' configure

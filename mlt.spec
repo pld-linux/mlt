@@ -82,6 +82,10 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 %prep
 %setup -q
 
+# Don't overoptimize (breaks debugging)
+sed -i -e '/fomit-frame-pointer/d' configure
+sed -i -e '/ffast-math/d' configure
+
 %build
 %configure \
 	--enable-gpl \
@@ -100,8 +104,6 @@ Ten pakiet zawiera pliki nagłówkowe dla MLT.
 	--disable-sse \
 	--disable-sse2 \
 %endif
-	--qimage-includedir=%{_includedir}/qt4 \
-	--qimage-libdir=%{_libdir} \
 	--swig-languages=python
 
 sed -i -e 's#OPTIMISATIONS=#OPTIMISATIONS=%{rpmcflags} %{rpmcppflags}#g' config.mak

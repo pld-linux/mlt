@@ -10,12 +10,12 @@ diff -urN mlt-6.2.0.org/src/modules/qt/configure mlt-6.2.0/src/modules/qt/config
  	then
  		# test if we have a Qt5 or Qt4
  		if [ -f "$qt_libdir/libQt5Core.so" ] || [ -d "$qt_libdir/QtWidgets.framework" ] || [ -f "$qt_libdir/libQt5Core.a" ]
-@@ -144,7 +144,7 @@
- 			echo QTLIBS=-L$qt_libdir -lQtCore -lQtGui -lQtXml -lQtSvg -lQtOpenGL >> config.mak
- 		fi
- 	else
--		pkg-config --exists 'QtGui >= 4'
-+		pkg-config --exists 'DISABLE-QtGui >= 4'
- 		if [ $? -eq 0 ]
- 		then
- 			echo "- Qt version 4.x detected"
+@@ -160,7 +160,7 @@ else
+ 				without_opengl=true
+ 			fi
+ 		else
+-			pkg-config --exists 'QtGui >= 4'
++			pkg-config --exists 'DISABLE-QtGui >= 4'
+ 			if [ $? -eq 0 ]
+ 			then
+ 				echo "- Qt version 4.x detected"

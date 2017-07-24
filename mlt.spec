@@ -1,7 +1,6 @@
 #
 # TODO:
 #	- Newtek NDI SDK support: https://www.newtek.com/ndi/sdk/
-#	- movit library (for opengl module): http://libregraphicsworld.org/blog/entry/introducing-movit-free-library-for-gpu-side-video-processing
 #	- bconds and module subpackages
 #	- more bindings (csharp, java, lua, perl, php, ruby, tcl)
 #
@@ -12,13 +11,14 @@ Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
 Version:	6.4.1
-Release:	2
+Release:	3
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 # Source0-md5:	bfa7b4009be616d6f858393a88fbbb32
 Patch0:		%{name}-qt5.patch
 URL:		http://www.mltframework.org/
+BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= 5
 BuildRequires:	Qt5Gui-devel >= 5
 BuildRequires:	Qt5OpenGL-devel >= 5
@@ -41,6 +41,7 @@ BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 1:2.5
+BuildRequires:	movit-devel
 %{?with_opencv:BuildRequires:	opencv-devel >= 3.1.0}
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel
@@ -50,6 +51,7 @@ BuildRequires:	sox-devel
 BuildRequires:	swfdec-devel >= 0.7
 BuildRequires:	swig-python
 BuildRequires:	vid.stab-devel >= 0.98
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	which
 Obsoletes:	mlt++ < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)

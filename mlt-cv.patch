@@ -1,0 +1,87 @@
+From 9076b7100f5dd028cfd710735da27e47e63b57ea Mon Sep 17 00:00:00 2001
+From: Dan Dennedy <dan@dennedy.org>
+Date: Sun, 10 Sep 2017 14:45:30 -0700
+Subject: [PATCH] Squashed commit of the following:
+
+commit 570229b18eeaf8e585318e1a81940359af8ea4db
+Author: BoboopTeam <BoboopTeam@users.noreply.github.com>
+Date:   Thu Sep 7 23:01:53 2017 +0200
+
+    module: opencv: added 'TLD' tracker mode
+
+commit 4fddadb9263c462fae090ddfb8ece49857630c1d
+Author: BoboopTeam <BoboopTeam@users.noreply.github.com>
+Date:   Thu Sep 7 22:47:05 2017 +0200
+
+    module: opencv: added forgotten 'KCF' mode check
+
+commit 622ff3acf6256739bd547ade1ceca0e6df5022e6
+Author: BoboopTeam <BoboopTeam@users.noreply.github.com>
+Date:   Thu Sep 7 22:14:48 2017 +0200
+
+    module: opencv: Remove deleted cv::Tracker::create()
+
+    This static method is no longer present in OpenCV API, this
+workaround should fix compilation against OpenCV 3.3.0 and newer
+---
+ src/modules/opencv/filter_opencv_tracker.cpp | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/src/modules/opencv/filter_opencv_tracker.cpp b/src/modules/opencv/filter_opencv_tracker.cpp
+index 48ffb56b7..d49862fcf 100644
+--- a/src/modules/opencv/filter_opencv_tracker.cpp
++++ b/src/modules/opencv/filter_opencv_tracker.cpp
+@@ -19,6 +19,7 @@
+ 
+ #include <framework/mlt.h>
+ #include <opencv2/tracking.hpp>
++#include <opencv2/core/version.hpp>
+ 
+ 
+ typedef struct
+@@ -109,14 +110,33 @@ static void analyze( mlt_filter filter, cv::Mat cvFrame, private_data* data, int
+         {
+ 		// Build tracker
+ 		data->algo = mlt_properties_get( filter_properties, "algo" );
+-                if ( data->algo == NULL || !strcmp(data->algo, "" ) )
+-                {
++#if CV_VERSION_MAJOR == 3 && CV_VERSION_MINOR >= 3
++		if ( !data->algo || *data->algo == '\0' || !strcmp(data->algo, "KCF" ) )
++		{
++			data->tracker = cv::TrackerKCF::create();
++		}
++		else if ( !strcmp(data->algo, "MIL" ) )
++		{
++			data->tracker = cv::TrackerMIL::create();
++		}
++		else if ( !strcmp(data->algo, "TLD" ) )
++		{
++			data->tracker = cv::TrackerTLD::create();
++		}
++		else
++		{
++			data->tracker = cv::TrackerBoosting::create();
++		}
++#else
++		if ( data->algo == NULL || !strcmp(data->algo, "" ) )
++		{
+ 			data->tracker = cv::Tracker::create( "KCF" );
+ 		}
+ 		else
+-                {
++		{
+ 			data->tracker = cv::Tracker::create( data->algo );
+ 		}
++#endif
+ 
+ 		// Discard previous results
+ 		mlt_properties_set( filter_properties, "_results", "" );
+@@ -245,7 +265,7 @@ static int filter_get_image( mlt_frame frame, uint8_t **image, mlt_image_format
+ 	{
+ 		analyze( filter, cvFrame, data, *width, *height, position - data->producer_in, data->producer_length );
+ 	}
+-	
++
+ 	if ( blur > 0 )
+ 	{
+ 		switch ( mlt_properties_get_int( filter_properties, "blur_type" ) )

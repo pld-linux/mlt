@@ -10,16 +10,13 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	6.4.1
-Release:	5
+Version:	6.10.0
+Release:	1
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
 Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	bfa7b4009be616d6f858393a88fbbb32
+# Source0-md5:	28a6f40ea76c167b6bb9d8baf985c4c2
 Patch0:		%{name}-qt5.patch
-Patch1:		xlocale.patch
-Patch2:		%{name}-ffmpeg.patch
-Patch3:		%{name}-cv.patch
 URL:		http://www.mltframework.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= 5
@@ -105,9 +102,6 @@ Wiązadania Pythona do MLT - szkieletu multimedialnego o otwartych
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p1
 
 # Don't overoptimize (breaks debugging)
 sed -i -e '/fomit-frame-pointer/d' configure

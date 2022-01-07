@@ -10,13 +10,12 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	6.16.0
+Version:	7.4.0
 Release:	1
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
-Source0:	http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-# Source0-md5:	e3872267232aae89f5182fd567be2596
-Patch0:		%{name}-qt5.patch
+Source0:	https://github.com/mltframework/mlt/releases/download/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	4bc74ec681e67310340bafc235178a81
 URL:		http://www.mltframework.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= 5
@@ -42,17 +41,18 @@ BuildRequires:	libsamplerate-devel
 BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 1:2.5
 BuildRequires:	movit-devel
+BuildRequires:	ninja
 %{?with_opencv:BuildRequires:	opencv-devel >= 3.1.0}
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rtaudio-devel
 BuildRequires:	sox-devel
-BuildRequires:	swfdec-devel >= 0.7
+#BuildRequires:	swfdec-devel >= 0.7
 BuildRequires:	swig-python
 BuildRequires:	vid.stab-devel >= 0.98
-BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	which
+BuildRequires:	xorg-lib-libX11-devel
 Obsoletes:	mlt++ < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -101,51 +101,24 @@ Wiązadania Pythona do MLT - szkieletu multimedialnego o otwartych
 
 %prep
 %setup -q
-%patch0 -p1
-
-# Don't overoptimize (breaks debugging)
-sed -i -e '/fomit-frame-pointer/d' configure
-sed -i -e '/ffast-math/d' configure
 
 %build
-%configure \
-	--enable-gpl \
-	--enable-gpl3 \
-	--enable-motion-est \
-	--disable-debug \
-%ifarch i586 i686 %{x8664}
-	--enable-mmx \
-%else
-	--disable-mmx \
-%endif
-	%{!?with_opencv:--disable-opencv} \
-%ifarch %{x8664}
-	--enable-sse \
-	--enable-sse2 \
-%else
-	--disable-sse \
-	--disable-sse2 \
-%endif
-	--swig-languages=python
-
-sed -i -e 's#OPTIMISATIONS=#OPTIMISATIONS=%{rpmcflags} %{rpmcppflags}#g' config.mak
-
-%{__make} \
-	CC="%{__cc}" \
-	CXX="%{__cxx}"
+install -d build
+cd build
+%cmake \
+	-G Ninja \
+	..
+%ninja_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{py_sitedir}
+%ninja_install -C build
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+#cp -p src/swig/python/{*.py,*.so} $RPM_BUILD_ROOT%{py_sitedir}
 
-cp -p src/swig/python/{*.py,*.so} $RPM_BUILD_ROOT%{py_sitedir}
-
-%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
-%py_comp $RPM_BUILD_ROOT%{py_sitedir}
-%py_postclean
+#%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+#%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+#%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -155,33 +128,35 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS NEWS README.md
 %attr(755,root,root) %{_bindir}/melt
-%attr(755,root,root) %{_libdir}/libmlt.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libmlt.so.6
-%attr(755,root,root) %{_libdir}/libmlt++.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libmlt++.so.3
-%dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/libmlt*.so
-%{_datadir}/mlt
+%attr(755,root,root) %{_bindir}/melt-7
+%attr(755,root,root) %{_libdir}/libmlt-7.so.*.*.*
+%ghost %{_libdir}/libmlt-7.so.7
+%attr(755,root,root) %{_libdir}/libmlt++-7.so.*.*.*
+%ghost %{_libdir}/libmlt++-7.so.7
+%dir %{_libdir}/%{name}-7
+%attr(755,root,root) %{_libdir}/%{name}-7/libmlt*.so
+%{_datadir}/mlt-7
+%{_mandir}/man1/melt-7.1*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libmlt.so
-%attr(755,root,root) %{_libdir}/libmlt++.so
-%{_includedir}/mlt
-%{_includedir}/mlt++
-%{_pkgconfigdir}/mlt-framework.pc
-%{_pkgconfigdir}/mlt++.pc
+%{_libdir}/libmlt-7.so
+%{_libdir}/libmlt++-7.so
+%{_libdir}/cmake/Mlt7
+%{_includedir}/mlt-7
+%{_pkgconfigdir}/mlt-framework-7.pc
+%{_pkgconfigdir}/mlt++-7.pc
 
-%files -n python-mlt
-%defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/_mlt.so
-%{py_sitedir}/codecs.py[co]
-%{py_sitedir}/getimage.py[co]
-%{py_sitedir}/mlt.py[co]
-%{py_sitedir}/play.py[co]
-%{py_sitedir}/switcher.py[co]
-%{py_sitedir}/test_animation.py[co]
-%{py_sitedir}/waveforms.py[co]
-%{py_sitedir}/webvfx_generator.py[co]
+#%files -n python-mlt
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{py_sitedir}/_mlt.so
+#%{py_sitedir}/codecs.py[co]
+#%{py_sitedir}/getimage.py[co]
+#%{py_sitedir}/mlt.py[co]
+#%{py_sitedir}/play.py[co]
+#%{py_sitedir}/switcher.py[co]
+#%{py_sitedir}/test_animation.py[co]
+#%{py_sitedir}/waveforms.py[co]
+#%{py_sitedir}/webvfx_generator.py[co]

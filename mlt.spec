@@ -18,7 +18,7 @@ Group:		X11/Applications/Multimedia
 #Source0Download: https://github.com/mltframework/mlt/releases
 Source0:	https://github.com/mltframework/mlt/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	498d65b8a8141eabacdc593c441f23ca
-URL:		http://www.mltframework.org/
+URL:		https://www.mltframework.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= 5
 BuildRequires:	Qt5Gui-devel >= 5

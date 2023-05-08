@@ -1,8 +1,9 @@
 #
 # TODO:
-#	- Newtek NDI SDK support: https://www.newtek.com/ndi/sdk/
+#	- Newtek NDI SDK support (MOD_NDI): https://www.newtek.com/ndi/sdk/
 #	- bconds and module subpackages
-#	- more bindings (csharp, java, lua, perl, php, ruby, tcl)
+#	- more bindings (restore python; add csharp, java, lua, nodejs, perl, php, ruby, tcl)
+#	- qt6 (Core,Gui,Xml,SvgWidgets,Core5Compat for MOD_QT6, Core,Gui,Widgets,Xml for MOD_GLAXNIMATE_QT6)
 #
 # Conditional build:
 %bcond_without	opencv	# OpenCV module
@@ -10,13 +11,13 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	7.14.0
-Release:	2
+Version:	7.16.0
+Release:	1
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
 #Source0Download: https://github.com/mltframework/mlt/releases
 Source0:	https://github.com/mltframework/mlt/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	00c133e73babe00a50077cf84c648ebf
+# Source0-md5:	498d65b8a8141eabacdc593c441f23ca
 URL:		http://www.mltframework.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= 5
@@ -25,31 +26,40 @@ BuildRequires:	Qt5OpenGL-devel >= 5
 BuildRequires:	Qt5Svg-devel >= 5
 BuildRequires:	Qt5Widgets-devel >= 5
 BuildRequires:	Qt5Xml-devel >= 5
-BuildRequires:	SDL-devel
+BuildRequires:	SDL-devel >= 1.2
+BuildRequires:	SDL2-devel >= 2
 BuildRequires:	SDL_image-devel
+BuildRequires:	cmake >= 3.14
 # libavcodec libavdevice libavfilter >= 4.11.100 libavformat libavutil libswscale
 BuildRequires:	ffmpeg-devel >= 2.3
 BuildRequires:	fftw3-devel >= 3
+BuildRequires:	fontconfig-devel
 BuildRequires:	frei0r-devel
+BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gdk-pixbuf2-devel >= 2.0
+BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gtk+2-devel >= 1:2.0
 BuildRequires:	jack-audio-connection-kit-devel
 BuildRequires:	ladspa-devel
 BuildRequires:	libdv-devel >= 0.102
+BuildRequires:	libebur128-devel
 BuildRequires:	libexif-devel
 BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
+BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 1:2.5
 BuildRequires:	movit-devel
 BuildRequires:	ninja
 %{?with_opencv:BuildRequires:	opencv-devel >= 3.1.0}
+BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	rtaudio-devel
+BuildRequires:	rubberband-devel
 BuildRequires:	sox-devel
-#BuildRequires:	swfdec-devel >= 0.7
 BuildRequires:	swig-python
 BuildRequires:	vid.stab-devel >= 0.98
 BuildRequires:	which
@@ -104,15 +114,16 @@ Wiązadania Pythona do MLT - szkieletu multimedialnego o otwartych
 %setup -q
 
 %build
-install -d build
-cd build
-%cmake \
+%cmake -B build \
 	-G Ninja \
-	..
-%ninja_build
+	-DMOD_GLAXNIMATE=ON \
+	%{?with_opencv:-DMOD_OPENCV=ON}
+
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %ninja_install -C build
 
 #cp -p src/swig/python/{*.py,*.so} $RPM_BUILD_ROOT%{py_sitedir}

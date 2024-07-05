@@ -11,21 +11,21 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	7.16.0
-Release:	3
+Version:	7.24.0
+Release:	1
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
 #Source0Download: https://github.com/mltframework/mlt/releases
 Source0:	https://github.com/mltframework/mlt/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	498d65b8a8141eabacdc593c441f23ca
+# Source0-md5:	08b3604ad071a13fd172f7a18abd610b
 URL:		https://www.mltframework.org/
 BuildRequires:	OpenGL-devel
-BuildRequires:	Qt5Core-devel >= 5
-BuildRequires:	Qt5Gui-devel >= 5
-BuildRequires:	Qt5OpenGL-devel >= 5
-BuildRequires:	Qt5Svg-devel >= 5
-BuildRequires:	Qt5Widgets-devel >= 5
-BuildRequires:	Qt5Xml-devel >= 5
+BuildRequires:	Qt6Core-devel >= 5
+BuildRequires:	Qt6Gui-devel >= 5
+BuildRequires:	Qt6OpenGL-devel >= 5
+BuildRequires:	Qt6Svg-devel >= 5
+BuildRequires:	Qt6Widgets-devel >= 5
+BuildRequires:	Qt6Xml-devel >= 5
 BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	SDL2-devel >= 2
 BuildRequires:	SDL_image-devel
@@ -54,7 +54,7 @@ BuildRequires:	ninja
 %{?with_opencv:BuildRequires:	opencv-devel >= 3.1.0}
 BuildRequires:	pango-devel
 BuildRequires:	pkgconfig
-BuildRequires:	python-devel
+BuildRequires:	python3-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	rtaudio-devel
@@ -116,7 +116,10 @@ Wiązadania Pythona do MLT - szkieletu multimedialnego o otwartych
 %build
 %cmake -B build \
 	-G Ninja \
-	-DMOD_GLAXNIMATE=ON \
+	-DMOD_GLAXNIMATE_QT6=ON \
+	-DMOD_GLAXNIMATE=OFF \
+	-DMOD_QT6=ON \
+	-DMOD_QT=OFF \
 	%{?with_opencv:-DMOD_OPENCV=ON}
 
 %ninja_build -C build

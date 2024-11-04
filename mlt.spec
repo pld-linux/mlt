@@ -44,7 +44,7 @@ BuildRequires:	ladspa-devel
 BuildRequires:	libdv-devel >= 0.102
 BuildRequires:	libebur128-devel
 BuildRequires:	libexif-devel
-BuildRequires:	libquicktime-devel
+#BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libvorbis-devel >= 1:1.0.1

@@ -60,6 +60,7 @@ BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	rtaudio-devel
 BuildRequires:	rubberband-devel
 BuildRequires:	sox-devel
+#BuildRequires:	spatialaudio-devel
 BuildRequires:	swig-python
 BuildRequires:	vid.stab-devel >= 0.98
 BuildRequires:	which
@@ -120,6 +121,7 @@ Wiązadania Pythona do MLT - szkieletu multimedialnego o otwartych
 	-DMOD_GLAXNIMATE=OFF \
 	-DMOD_QT6=ON \
 	-DMOD_QT=OFF \
+	-DMOD_SPATIALAUDIO=OFF \
 	%{?with_opencv:-DMOD_OPENCV=ON}
 
 %ninja_build -C build

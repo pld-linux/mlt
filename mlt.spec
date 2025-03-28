@@ -3,29 +3,33 @@
 #	- Newtek NDI SDK support (MOD_NDI): https://www.newtek.com/ndi/sdk/
 #	- bconds and module subpackages
 #	- more bindings (restore python; add csharp, java, lua, nodejs, perl, php, ruby, tcl)
-#	- qt6 (Core,Gui,Xml,SvgWidgets,Core5Compat for MOD_QT6, Core,Gui,Widgets,Xml for MOD_GLAXNIMATE_QT6)
 #
 # Conditional build:
-%bcond_without	opencv	# OpenCV module
+%bcond_without	opencv		# OpenCV module
+%bcond_with	spatialaudio	# SpatialAudio support (needs > 0.3.0?)
 #
+%define	qt6_ver	6.8.2
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	7.28.0
+Version:	7.30.0
 Release:	1
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
 #Source0Download: https://github.com/mltframework/mlt/releases
 Source0:	https://github.com/mltframework/mlt/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	dab096e465078ac5a1d5e1145c14461c
+# Source0-md5:	ea1ac3e412fe182f6cb5e0e92f7eb116
 URL:		https://www.mltframework.org/
 BuildRequires:	OpenGL-devel
-BuildRequires:	Qt6Core-devel >= 5
-BuildRequires:	Qt6Gui-devel >= 5
-BuildRequires:	Qt6OpenGL-devel >= 5
-BuildRequires:	Qt6Svg-devel >= 5
-BuildRequires:	Qt6Widgets-devel >= 5
-BuildRequires:	Qt6Xml-devel >= 5
+BuildRequires:	Qt6Core-devel >= %{qt6_ver}
+BuildRequires:	Qt6DBus-devel >= %{qt6_ver}
+BuildRequires:	Qt6Gui-devel >= %{qt6_ver}
+BuildRequires:	Qt6Network-devel >= %{qt6_ver}
+BuildRequires:	Qt6OpenGL-devel >= %{qt6_ver}
+BuildRequires:	Qt6Qt5Compat-devel >= %{qt6_ver}
+BuildRequires:	Qt6Svg-devel >= %{qt6_ver}
+BuildRequires:	Qt6Widgets-devel >= %{qt6_ver}
+BuildRequires:	Qt6Xml-devel >= %{qt6_ver}
 BuildRequires:	SDL-devel >= 1.2
 BuildRequires:	SDL2-devel >= 2
 BuildRequires:	SDL_image-devel
@@ -44,11 +48,11 @@ BuildRequires:	ladspa-devel
 BuildRequires:	libdv-devel >= 0.102
 BuildRequires:	libebur128-devel
 BuildRequires:	libexif-devel
-#BuildRequires:	libquicktime-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libvorbis-devel >= 1:1.0.1
 BuildRequires:	libxml2-devel >= 1:2.5
+BuildRequires:	lilv-devel
 BuildRequires:	movit-devel
 BuildRequires:	ninja
 %{?with_opencv:BuildRequires:	opencv-devel >= 3.1.0}
@@ -60,12 +64,14 @@ BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	rtaudio-devel
 BuildRequires:	rubberband-devel
 BuildRequires:	sox-devel
-#BuildRequires:	spatialaudio-devel
+%{?with_spatialaudio:BuildRequires:	spatialaudio-devel > 0.3.0}
 BuildRequires:	swig-python
 BuildRequires:	vid.stab-devel >= 0.98
 BuildRequires:	which
 BuildRequires:	xorg-lib-libX11-devel
-Obsoletes:	mlt++ < %{version}
+BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.5.0
+Requires:	xorg-lib-libxkbcommon >= 0.5.0
+Obsoletes:	mlt++ < 0.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -90,7 +96,7 @@ Summary:	Header files for MLT
 Summary(pl.UTF-8):	Pliki nagłówkowe dla MLT
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	mlt++-devel < %{version}
+Obsoletes:	mlt++-devel < 0.4
 
 %description devel
 This package contains header files for MLT.
@@ -121,7 +127,7 @@ Wiązadania Pythona do MLT - szkieletu multimedialnego o otwartych
 	-DMOD_GLAXNIMATE=OFF \
 	-DMOD_QT6=ON \
 	-DMOD_QT=OFF \
-	-DMOD_SPATIALAUDIO=OFF \
+	%{!?with_spatialaudio:-DMOD_SPATIALAUDIO=OFF} \
 	%{?with_opencv:-DMOD_OPENCV=ON}
 
 %ninja_build -C build

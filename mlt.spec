@@ -12,13 +12,13 @@
 Summary:	MLT - open source multimedia framework
 Summary(pl.UTF-8):	MLT - szkielet multimedialny o otwartych źródłach
 Name:		mlt
-Version:	7.30.0
-Release:	2
+Version:	7.32.0
+Release:	1
 License:	GPL v3+ (LGPL v2.1+ code linked with GPL v2/GPL v3 libraries)
 Group:		X11/Applications/Multimedia
 #Source0Download: https://github.com/mltframework/mlt/releases
 Source0:	https://github.com/mltframework/mlt/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ea1ac3e412fe182f6cb5e0e92f7eb116
+# Source0-md5:	d8ade248452e023366f4a0e3d20612ca
 URL:		https://www.mltframework.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt6Core-devel >= %{qt6_ver}
